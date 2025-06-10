@@ -12,7 +12,7 @@ RUN npm install
 COPY p_server.js ./
 
 # Expose the port the app runs on
-EXPOSE 3001
+EXPOSE 3000
 
 # Command to run the application
 CMD [ "npm", "start" ]
