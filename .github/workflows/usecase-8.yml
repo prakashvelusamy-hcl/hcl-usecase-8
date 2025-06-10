@@ -17,11 +17,14 @@ on:
 permissions:
       id-token: write
       contents: read
-
 jobs:
   terraform:
-    name: Terraform Apply or Destroy
+    name: Docker Build + Terraform Apply/Destroy
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: appoinment
+      AWS_REGION: ap-south-1
+      DOCKER_DIR: docker/appointment-service 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,6 +35,29 @@ jobs:
           role-to-assume: arn:aws:iam::495599733393:role/OIDC
           # role-to-assume: ${{ secrets.AWS_SECRET }}
           aws-region: ap-south-1
+
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Ensure ECR Repository Exists
+        run: |
+          aws ecr describe-repositories --repository-names "$IMAGE_NAME" || \
+          aws ecr create-repository --repository-name "$IMAGE_NAME"
+
+      - name: Build Docker image
+        run: docker build -t $IMAGE_NAME -f ${{ env.DOCKER_DIR }}/Dockerfile ${{ env.DOCKER_DIR }}
+
+      - name: Tag Docker image
+        run: |
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          docker tag $IMAGE_NAME:latest $ECR_REGISTRY/$IMAGE_NAME:v1
+
+      - name: Push Docker image to ECR
+        run: |
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          docker push $ECR_REGISTRY/$IMAGE_NAME:v1
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
