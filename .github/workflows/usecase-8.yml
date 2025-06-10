@@ -9,10 +9,11 @@ on:
       action:
         description: 'Terraform action to perform'
         required: true
-        default: 'destroy'
+        default: 'apply'
         type: choice
         options:
           - destroy
+          - apply
 
 permissions:
       id-token: write
@@ -22,9 +23,11 @@ jobs:
     name: Docker Build + Terraform Apply/Destroy
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: appoinment
+      IMAGE_NAME_APPOINTMENT: appointment
+      IMAGE_NAME_PATIENT: patient
       AWS_REGION: ap-south-1
-      DOCKER_DIR: docker/appointment-service 
+      DOCKER_DIR_APPOINTMENT: docker/appointment-service
+      DOCKER_DIR_PATIENT: docker/patient-service
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,24 +44,42 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Ensure ECR Repository Exists
+      - name: Ensure ECR Repositories Exist
         run: |
-          aws ecr describe-repositories --repository-names "$IMAGE_NAME" || \
-          aws ecr create-repository --repository-name "$IMAGE_NAME"
-
-      - name: Build Docker image
-        run: docker build -t $IMAGE_NAME -f ${{ env.DOCKER_DIR }}/Dockerfile ${{ env.DOCKER_DIR }}
-
-      - name: Tag Docker image
-        run: |
-          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          docker tag $IMAGE_NAME:latest $ECR_REGISTRY/$IMAGE_NAME:v1
-
-      - name: Push Docker image to ECR
+          aws ecr describe-repositories --repository-names "$IMAGE_NAME_APPOINTMENT" || \
+          aws ecr create-repository --repository-name "$IMAGE_NAME_APPOINTMENT"
+          aws ecr describe-repositories --repository-names "$IMAGE_NAME_PATIENT" || \
+          aws ecr create-repository --repository-name "$IMAGE_NAME_PATIENT"
+      
+      # Build, tag, and push for appointment image
+      - name: Build Appointment Docker image
+        run: docker build -t $IMAGE_NAME_APPOINTMENT -f ${{ env.DOCKER_DIR_APPOINTMENT }}/Dockerfile ${{ env.DOCKER_DIR_APPOINTMENT }}
+      
+      - name: Tag Appointment Docker image
         run: |
           ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
-          docker push $ECR_REGISTRY/$IMAGE_NAME:v1
-
+          docker tag $IMAGE_NAME_APPOINTMENT:latest $ECR_REGISTRY/$IMAGE_NAME_APPOINTMENT:v1
+      
+      - name: Push Appointment Docker image to ECR
+        run: |
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          docker push $ECR_REGISTRY/$IMAGE_NAME_APPOINTMENT:v1
+      
+      # Build, tag, and push for patient image
+      - name: Build Patient Docker image
+        run: docker build -t $IMAGE_NAME_PATIENT -f ${{ env.DOCKER_DIR_PATIENT }}/Dockerfile ${{ env.DOCKER_DIR_PATIENT }}
+      
+      - name: Tag Patient Docker image
+        run: |
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          docker tag $IMAGE_NAME_PATIENT:latest $ECR_REGISTRY/$IMAGE_NAME_PATIENT:v1
+      
+      - name: Push Patient Docker image to ECR
+        run: |
+          ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}
+          docker push $ECR_REGISTRY/$IMAGE_NAME_PATIENT:v1
+      
+      
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -74,7 +95,7 @@ jobs:
         run: terraform plan 
 
       - name: Terraform Apply
-        if: contains(github.event.head_commit.message, 'terraform apply')
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply'
         run: terraform apply -auto-approve 
 
       - name: Terraform Destroy
