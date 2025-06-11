@@ -109,7 +109,7 @@ resource "aws_security_group" "ecs_tasks" {
     from_port       = 3000
     to_port         = 3001
     protocol        = "tcp"
-    security_groups = [aws_security_group.alb.id]
+    security_groups = var.alb_sg_id
   }
 
   egress {
@@ -308,7 +308,7 @@ resource "aws_ecs_service" "patient_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [var.ecs_security_group_id]
+    security_groups  = aws_security_group.ecs_tasks.id
     subnets          = var.private_subnet_ids
     assign_public_ip = false
   }
