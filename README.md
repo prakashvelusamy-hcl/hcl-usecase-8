@@ -37,6 +37,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_alb_end_point_anme"></a> [alb\_end\_point\_anme](#output\_alb\_end\_point\_anme) | The DNS name of the Load Balancer |
 | <a name="output_internet_gateway_id"></a> [internet\_gateway\_id](#output\_internet\_gateway\_id) | n/a |
 | <a name="output_my_vpc_id"></a> [my\_vpc\_id](#output\_my\_vpc\_id) | n/a |
 | <a name="output_nat_gateway_ids"></a> [nat\_gateway\_ids](#output\_nat\_gateway\_ids) | n/a |
