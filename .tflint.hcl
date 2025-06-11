@@ -5,9 +5,9 @@ plugin "aws" {
 }
 
 # Enforce version constraints
-rule "terraform_required_version" {
-  enabled = fals
-}
+#rule "terraform_required_version" {
+#  enabled = true
+#}
 
 # Enforce consistent variable types
 rule "terraform_typed_variables" {
