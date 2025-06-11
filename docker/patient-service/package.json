@@ -2,9 +2,9 @@
   "name": "patient-service",
   "version": "1.0.0",
   "description": "A simple patient service using Express",
-  "main": "server.js",
+  "main": "p_server.js",
   "scripts": {
-    "start": "node a_server.js"
+    "start": "node p_server.js"
   },
   "dependencies": {
     "express": "^4.18.2"
