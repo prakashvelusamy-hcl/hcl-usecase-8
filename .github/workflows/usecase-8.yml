@@ -32,6 +32,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Install TFLint
+        run: |
+          wget https://github.com/terraform-linters/tflint/releases/download/v0.50.2/tflint_linux_amd64.zip
+          unzip tflint_linux_amd64.zip
+          sudo mv tflint /usr/local/bin/
+          tflint --version
+      - name: Run TFLint
+        run: tflint --init && tflint -f compact
+        working-directory: ./
+      - name: Install Checkov
+        run: |
+          pip install checkov
+
+      - name: Run Checkov to Analyze Terraform Code
+        run: |
+          checkov -d ./
+          #checkov -d . --terraform --skip-check CKV_AWS_23 --skip-check CKV_AWS_24 # Optional: skip checks if needed
+        continue-on-error: true
         
       - name: Configure AWS credentials with OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -114,15 +132,7 @@ jobs:
           git add README.md
           git commit -m "Update Terraform docs [skip ci]" || echo "No changes to commit"
           git push
-      - name: Install Checkov
-        run: |
-          pip install checkov
 
-      - name: Run Checkov to Analyze Terraform Code
-        run: |
-          checkov -d ./
-          #checkov -d . --terraform --skip-check CKV_AWS_23 --skip-check CKV_AWS_24 # Optional: skip checks if needed
-        continue-on-error: true  # This ensures that the workflow will continue even if Checkov finds issues
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'apply'
