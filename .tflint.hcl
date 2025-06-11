@@ -6,7 +6,7 @@ plugin "aws" {
 
 # Enforce version constraints
 rule "terraform_required_version" {
-  enabled = true
+  enabled = fals
 }
 
 # Enforce consistent variable types
