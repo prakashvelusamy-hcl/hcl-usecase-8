@@ -9,6 +9,7 @@ module "vpc" {
 module "ecs" {
   source = "./modules/terraform-aws-ecs"
   environment = var.environment
+  vpc_id = module.vpc.vpc_id
   patient_repo_uri = var.patient_repo_uri
   appointment_repo_uri = var.appointment_repo_uri
 }

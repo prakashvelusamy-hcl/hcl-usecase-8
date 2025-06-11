@@ -350,7 +350,7 @@ resource "aws_ecs_service" "patient_service" {
   load_balancer {
     target_group_arn = var.target_group_arns.patient_service
     container_name   = "patient-service"
-    container_port   = var.app_port
+    container_port   = "3000"
   }
 
   depends_on = [var.target_group_arns]
@@ -379,7 +379,7 @@ resource "aws_ecs_service" "appointment_service" {
   load_balancer {
     target_group_arn = var.target_group_arns.appointment_service
     container_name   = "appointment-service"
-    container_port   = var.app_port
+    container_port   = "3001"
   }
 
   depends_on = [var.target_group_arns]
