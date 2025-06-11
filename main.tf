@@ -10,6 +10,7 @@ module "alb" {
   source = "./modules/terraform-aws-alb"
   public_subnet_ids = module.vpc.public_subnet_ids
   environment = var.environment
+  vpc_id = module.vpc.vpc_id
 }
 module "ecs" {
   source = "./modules/terraform-aws-ecs"
