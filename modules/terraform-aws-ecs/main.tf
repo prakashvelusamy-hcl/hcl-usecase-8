@@ -333,7 +333,7 @@ resource "aws_ecs_service" "appointment_service" {
   name            = "${var.environment}-appointment-service"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.appointment_service.arn
-  desired_count   = var.desired_capacity
+  desired_count   = "1"
   launch_type     = "FARGATE"
 
   network_configuration {
