@@ -7,7 +7,7 @@ module "vpc" {
   nat_count      = var.nat_count
 }
 module "ecs" {
-  source = "./modules/terraform-aws-alb"
+  source = "./modules/terraform-aws-ecs"
   environment = var.environment
   patient_repo_uri = var.patient_repo_uri
   appointment_repo_uri = var.ppointment_repo_uri
