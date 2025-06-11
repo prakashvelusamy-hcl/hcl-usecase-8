@@ -314,7 +314,7 @@ resource "aws_ecs_service" "patient_service" {
   }
 
   load_balancer {
-    target_group_arn = var.target_group_arns.patient_service
+    target_group_arn = var.patient_target_group_arn
     container_name   = "patient-service"
     container_port   = "3000"
   }
