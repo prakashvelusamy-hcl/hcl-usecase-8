@@ -18,16 +18,6 @@ output "internet_gateway_id" {
   value = module.vpc.internet_gateway_id
 }
 
-output "instance_ids" {
-  value = module.ec2.public_instance_ids
-}
-
-output "instance_public_ips" {
-  value = module.ec2.public_instance_ips
-}
-output "alb_dns_name" {
-  value = module.ec2.alb_dns_name
-}
-# output "test_user_data" {
-# value= module.ec2.test_user_data_content  
+# output "alb_dns_name" {
+#   value = module.ec2.alb_dns_name
 # }
