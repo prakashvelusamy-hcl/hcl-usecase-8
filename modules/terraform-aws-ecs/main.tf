@@ -319,7 +319,7 @@ resource "aws_ecs_service" "patient_service" {
     container_port   = "3000"
   }
 
-  depends_on = [var.target_group_arns]
+  depends_on = [alb.patient_target_group_arn]
 
   tags = {
     Name        = "${var.environment}-patient-service"
