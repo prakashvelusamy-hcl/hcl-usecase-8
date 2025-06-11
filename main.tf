@@ -21,4 +21,5 @@ module "ecs" {
   appointment_repo_uri = var.appointment_repo_uri
   alb_sg_id = module.alb.alb_sg_id
   patient_target_group_arn = module.alb.patient_target_group_arn
+  appointment_target_group_arn = module.alb.appointment_target_group_arn
 }

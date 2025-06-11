@@ -319,7 +319,7 @@ resource "aws_ecs_service" "patient_service" {
     container_port   = "3000"
   }
 
-  depends_on = [alb.patient_target_group_arn]
+  depends_on = [var.patient_target_group_arn]
 
   tags = {
     Name        = "${var.environment}-patient-service"
@@ -343,12 +343,12 @@ resource "aws_ecs_service" "appointment_service" {
   }
 
   load_balancer {
-    target_group_arn = var.target_group_arns.appointment_service
+    target_group_arn = var.appointment_target_group_arn
     container_name   = "appointment-service"
     container_port   = "3001"
   }
 
-  depends_on = [var.target_group_arns]
+  depends_on = [var.appointment_target_group_arn]
 
   tags = {
     Name        = "${var.environment}-appointment-service"

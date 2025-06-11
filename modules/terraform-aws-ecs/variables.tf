@@ -26,3 +26,7 @@ variable "patient_target_group_arn" {
     description = " the patient service target group arn"
     type = string
 }
+variable "appointment_target_group_arn" {
+    description = "the appointment_target_group_arn"
+    type = string
+}
