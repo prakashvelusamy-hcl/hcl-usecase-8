@@ -22,3 +22,7 @@ variable "alb_sg_id" {
     description = "the alb security group id"
     type = string 
 }
+variable "patient_target_group_arn" {
+    description = " the patient service target group arn"
+    type = string
+}
