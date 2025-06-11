@@ -1,5 +1,7 @@
 vpc_cidr         = "10.10.0.0/16"
+environment       = "dev"
 pub_sub_count    = 2
 priv_sub_count   = 2
 nat_count        = 1
-public_instance  = 0
+patient_repo_url = "495599733393.dkr.ecr.ap-south-1.amazonaws.com/patient:v1"
+appointment_repo_url = "495599733393.dkr.ecr.ap-south-1.amazonaws.com/appointment:v1"
