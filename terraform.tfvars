@@ -3,5 +3,5 @@ environment       = "dev"
 pub_sub_count    = 2
 priv_sub_count   = 2
 nat_count        = 1
-patient_repo_url = "495599733393.dkr.ecr.ap-south-1.amazonaws.com/patient:v1"
-appointment_repo_url = "495599733393.dkr.ecr.ap-south-1.amazonaws.com/appointment:v1"
+patient_repo_uri = "495599733393.dkr.ecr.ap-south-1.amazonaws.com/patient:v1"
+appointment_repo_uri = "495599733393.dkr.ecr.ap-south-1.amazonaws.com/appointment:v1"
