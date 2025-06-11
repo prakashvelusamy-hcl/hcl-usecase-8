@@ -184,7 +184,7 @@ resource "aws_ecs_task_definition" "patient_service" {
       
       portMappings = [
         {
-          containerPort = "3000"
+          containerPort = 3000
           protocol      = "tcp"
         }
       ]
@@ -253,7 +253,7 @@ resource "aws_ecs_task_definition" "appointment_service" {
       
       portMappings = [
         {
-          containerPort = "3001"
+          containerPort = 3001
           protocol      = "tcp"
         }
       ]
