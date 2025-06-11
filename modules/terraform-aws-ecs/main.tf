@@ -101,7 +101,7 @@ resource "aws_iam_role_policy" "ecs_task_role_policy" {
 }
 resource "aws_security_group" "alb" {
   name_prefix = "${var.environment}-alb-"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = var.vpc_id
 
   ingress {
     description = "HTTP"
@@ -343,7 +343,7 @@ resource "aws_ecs_service" "patient_service" {
 
   network_configuration {
     security_groups  = [var.ecs_security_group_id]
-    subnets          = var.private_subnets
+    subnets          = var.private_subnet_ids
     assign_public_ip = false
   }
 
@@ -372,7 +372,7 @@ resource "aws_ecs_service" "appointment_service" {
 
   network_configuration {
     security_groups  = aws_security_group.ecs_tasks.id
-    subnets          = var.private_subnets
+    subnets          = var.private_subnet_ids
     assign_public_ip = false
   }
 
