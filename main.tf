@@ -12,14 +12,14 @@ module "alb" {
   environment = var.environment
   vpc_id = module.vpc.vpc_id
 }
-module "ecs" {
-  source = "./modules/terraform-aws-ecs"
-  private_subnet_ids = module.vpc.private_subnet_ids
-  environment = var.environment
-  vpc_id = module.vpc.vpc_id
-  patient_repo_uri = var.patient_repo_uri
-  appointment_repo_uri = var.appointment_repo_uri
-  alb_sg_id = module.alb.alb_sg_id
-  patient_target_group_arn = module.alb.patient_target_group_arn
-  appointment_target_group_arn = module.alb.appointment_target_group_arn
-}
+# module "ecs" {
+#   source = "./modules/terraform-aws-ecs"
+#   private_subnet_ids = module.vpc.private_subnet_ids
+#   environment = var.environment
+#   vpc_id = module.vpc.vpc_id
+#   patient_repo_uri = var.patient_repo_uri
+#   appointment_repo_uri = var.appointment_repo_uri
+#   alb_sg_id = module.alb.alb_sg_id
+#   patient_target_group_arn = module.alb.patient_target_group_arn
+#   appointment_target_group_arn = module.alb.appointment_target_group_arn
+# }
