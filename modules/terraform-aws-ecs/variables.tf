@@ -18,3 +18,7 @@ variable "appointment_repo_uri" {
 description = "The appointment image repo URL"
 type = string
 }
+variable "alb_sg_id" {
+    description = "the alb security group id"
+    type = string 
+}

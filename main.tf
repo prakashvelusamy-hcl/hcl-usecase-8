@@ -19,4 +19,5 @@ module "ecs" {
   vpc_id = module.vpc.vpc_id
   patient_repo_uri = var.patient_repo_uri
   appointment_repo_uri = var.appointment_repo_uri
+  alb_sg_id = module.alb.alb_sg_id
 }
