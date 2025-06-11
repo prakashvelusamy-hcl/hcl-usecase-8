@@ -308,7 +308,7 @@ resource "aws_ecs_service" "patient_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = aws_security_group.ecs_tasks.id
+    security_groups  = [aws_security_group.ecs_tasks.id]
     subnets          = var.private_subnet_ids
     assign_public_ip = false
   }
@@ -337,7 +337,7 @@ resource "aws_ecs_service" "appointment_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = aws_security_group.ecs_tasks.id
+    security_groups  = [aws_security_group.ecs_tasks.id]
     subnets          = var.private_subnet_ids
     assign_public_ip = false
   }
