@@ -6,6 +6,11 @@ module "vpc" {
   priv_sub_count = var.priv_sub_count
   nat_count      = var.nat_count
 }
+module "alb" {
+  source = "./modules/terraform-aws-alb"
+  public_subnet_ids = module.vpc.public_subnet_ids
+  environment = var.environment
+}
 module "ecs" {
   source = "./modules/terraform-aws-ecs"
   private_subnet_ids = module.vpc.private_subnet_ids
