@@ -15,4 +15,4 @@ COPY a_server.js ./
 EXPOSE 3001
 
 # Command to run the application
-CMD [ "npm", "start" ]
+CMD [ "npm", "server.js" ]
